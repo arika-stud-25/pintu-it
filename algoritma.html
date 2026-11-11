@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Terpadu Informatika | Algoritma</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome & Lucide Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter & Fira Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            zoom: 85%;
+        }
+
+        @supports not (zoom: 85%) {
+            body {
+                transform: scale(0.85);
+                transform-origin: top center;
+                width: 125%; 
+            }
+        }
+
+        .card-perspective {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Swap Animation Keyframe */
+        @keyframes swapBounce {
+            0% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1) translateY(-10px); }
+            100% { transform: rotateY(180deg) scale(1); }
+        }
+
+        .animate-swap-card {
+            animation: swapBounce 0.5s ease-in-out;
+        }
+        
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- MAIN HEADER WITH STEPPER NAVIGATION -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between py-3 md:h-20 items-center gap-3">
+                <!-- Branding -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-indigo-500/20">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-slate-900 leading-tight text-base sm:text-lg">Portal Terpadu Informatika</h1>
+                        <p class="text-xs text-indigo-600 font-semibold">Materi: Algoritma Sorting</p>
+                    </div>
+                </div>
+
+                <!-- 3-STEP NAVIGATION BADGES -->
+                <nav class="flex items-center justify-center space-x-1 sm:space-x-3 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 text-xs sm:text-sm font-semibold w-full md:w-auto">
+                    <!-- Step 1 Tab -->
+                    <button id="nav-step-1" onclick="switchStep(1)" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-200 bg-indigo-600 text-white shadow-sm">
+                        <span class="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold">1</span>
+                        <span>Pre-Test</span>
+                    </button>
+                    <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+
+                    <!-- Step 2 Tab -->
+                    <button id="nav-step-2" onclick="switchStep(2)" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/60">
+                        <span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold">2</span>
+                        <span>Materi & Simulasi</span>
+                    </button>
+                    <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+
+                    <!-- Step 3 Tab -->
+                    <button id="nav-step-3" onclick="switchStep(3)" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/60">
+                        <span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold">3</span>
+                        <span>Post-Test</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================================================================================= -->
+        <!-- STEP 1: PRE-TEST & PRESENSI SECTION -->
+        <!-- ================================================================================= -->
+        <section id="section-step-1" class="space-y-6">
+            
+            <!-- VIEW 1A: FORM IDENTITAS & PRESENSI -->
+            <div id="identityView" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 sm:p-8 text-white">
+                    <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold mb-2 backdrop-blur-sm">Tahap 1: Presensi & Pre-Test</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold">Selamat Datang di Kelas Informatika!</h2>
+                    <p class="text-sm text-indigo-100 mt-1">Silakan isi identitas dan evaluasi awal Anda sebelum memasuki materi simulasi.</p>
+                </div>
+                
+                <form id="startForm" onsubmit="handleStartPretest(event)" class="p-6 sm:p-8 space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap Siswa <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <i data-lucide="user" class="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input type="text" id="studentName" required placeholder="Contoh: Ahmad Rizky Pratama" 
+                                class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Nomor Presensi / Absen <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <i data-lucide="hash" class="absolute left-3.5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                            <input type="number" id="studentAbsen" min="1" max="60" required placeholder="Contoh: 05" 
+                                class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm">
+                        </div>
+                    </div>
+
+                    <!-- PILIHAN KABAR / EMOJI HARI INI -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Bagaimana kabar / perasaanmu hari ini? <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-3.5" id="moodContainer">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="😀 Bahagia" required class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">😀</div>
+                                    <div class="text-[11px] font-medium mt-1">Bahagia</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="🔥 Semangat" class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">🔥</div>
+                                    <div class="text-[11px] font-medium mt-1">Semangat</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="🙂 Biasa Aja" class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">🙂</div>
+                                    <div class="text-[11px] font-medium mt-1">Biasa Aja</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="😴 Mengantuk" class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">😴</div>
+                                    <div class="text-[11px] font-medium mt-1">Mengantuk</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="🍔 Lapar" class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">🍔</div>
+                                    <div class="text-[11px] font-medium mt-1">Lapar</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="studentMood" value="😔 Sedih/Lelah" class="peer hidden">
+                                <div class="p-3 border border-slate-200 rounded-xl text-center peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 hover:bg-slate-50 transition">
+                                    <div class="text-2xl">😔</div>
+                                    <div class="text-[11px] font-medium mt-1">Sedih/Lelah</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 space-y-1.5">
+                        <div class="font-bold flex items-center gap-1.5 text-amber-950">
+                            <i data-lucide="info" class="w-4 h-4"></i> Petunjuk Pengerjaan Pretest:
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-amber-800">
+                            <li>Jumlah Soal: <b>6 Butir</b> (Pilihan Ganda 5 Opsi).</li>
+                            <li>Waktu Pengerjaan: <b>7 Menit</b>.</li>
+                            <li>Setiap soal memiliki opsi <b>"Tidak Tahu"</b> jika kamu belum pernah mempelajarinya.</li>
+                            <li>Pengisian pretest ini otomatis akan merekap <b>Presensi Kehadiran</b> Anda hari ini.</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-200 transition duration-200 flex items-center justify-center gap-2 group">
+                        <span>Mulai Pretest</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- VIEW 1B: LEMBAR SOAL PRETEST -->
+            <div id="quizView" class="hidden max-w-4xl mx-auto space-y-6">
+                <!-- Progress & Timer Bar -->
+                <div class="bg-white p-4 rounded-xl shadow-md border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-20 z-20">
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <div class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1.5 rounded-lg text-xs">
+                            Progres: <span id="answeredCount">0</span>/6
+                        </div>
+                        <div class="w-full md:w-48 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-amber-50 text-amber-800 font-mono font-bold px-4 py-2 rounded-xl border border-amber-200 text-sm w-full md:w-auto justify-center">
+                        <i data-lucide="clock" class="w-4 h-4 text-amber-600 animate-pulse"></i>
+                        <span>Sisa Waktu: <span id="quizTimer">07:00</span></span>
+                    </div>
+                </div>
+
+                <!-- Quiz Container Form -->
+                <form id="quizForm" onsubmit="handleQuizSubmit(event)" class="space-y-6">
+                    <div id="questionsContainer" class="space-y-6">
+                        <!-- Questions injected dynamically -->
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-xs text-slate-500">
+                            * Pastikan semua jawaban telah terisi sebelum menekan tombol selesaikan.
+                        </div>
+                        <button type="submit" id="submitBtn" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-emerald-100 transition flex items-center justify-center gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                            <span>Selesaikan & Simpan Pretest</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- VIEW 1C: HALAMAN HASIL PRETEST -->
+            <div id="finalResultView" class="hidden max-w-xl mx-auto space-y-6">
+                <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden text-center">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-white space-y-3">
+                        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto text-white">
+                            <i data-lucide="award" class="w-8 h-8"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Pretest Selesai!</h2>
+                        <p class="text-xs text-indigo-100 max-w-sm mx-auto">
+                            Terima kasih, <span id="displayStudentName" class="font-semibold underline decoration-amber-400">Siswa</span> (Absen: <span id="displayStudentAbsen">00</span>). Presensi dan nilai pretest kamu sudah berhasil dicatat!
+                        </p>
+                    </div>
+
+                    <div class="p-6 space-y-6">
+                        <!-- Kabar Badge -->
+                        <div class="inline-flex items-center gap-2 bg-slate-100 px-4 py-1.5 rounded-full text-xs text-slate-700 font-medium">
+                            <span>Kabar Hari ini:</span>
+                            <span id="displayStudentMood" class="font-bold text-indigo-600">😀 Bahagia</span>
+                        </div>
+
+                        <!-- Score Display -->
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-6 space-y-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Nilai Pretest Kamu</span>
+                            <div class="text-6xl font-black text-indigo-600" id="finalScoreText">0</div>
+                            
+                            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-slate-200/60 text-xs">
+                                <div class="bg-emerald-50 p-2 rounded-xl text-emerald-700 border border-emerald-100">
+                                    <span class="block text-[10px] text-emerald-600 uppercase font-semibold">Benar</span>
+                                    <b id="finalCorrectCount" class="text-lg">0</b>
+                                </div>
+                                <div class="bg-red-50 p-2 rounded-xl text-red-700 border border-red-100">
+                                    <span class="block text-[10px] text-red-600 uppercase font-semibold">Salah</span>
+                                    <b id="finalWrongCount" class="text-lg">0</b>
+                                </div>
+                                <div class="bg-amber-50 p-2 rounded-xl text-amber-800 border border-amber-100">
+                                    <span class="block text-[10px] text-amber-600 uppercase font-semibold">Tidak Tahu</span>
+                                    <b id="finalDontKnowCount" class="text-lg">0</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button to Step 2 -->
+                        <button onclick="switchStep(2)" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2">
+                            <span>Lanjut ke Tahap 2: Simulasi Materi</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ================================================================================= -->
+        <!-- STEP 2: MATERI & SIMULASI INTERAKTIF SECTION -->
+        <!-- ================================================================================= -->
+        <section id="section-step-2" class="hidden space-y-6">
+            
+            <!-- Information Banner -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex items-start space-x-4 shadow-sm">
+                <div class="p-2.5 bg-amber-500 text-white rounded-xl flex-shrink-0 mt-0.5">
+                    <i class="fa-solid fa-eye-slash text-xl"></i>
+                </div>
+                <div class="flex-1 text-sm text-amber-900">
+                    <h2 class="font-bold text-amber-950 text-base mb-1">Konsep Penglihatan Terbatas Komputer</h2>
+                    <p class="leading-relaxed">
+                        Komputer tidak dapat melihat seluruh isi data sekaligus. Komputer hanya dapat <strong>membandingkan DUA angka dalam satu waktu</strong>. Pada simulasi ini, baik <em>Bubble Sort</em> maupun <em>Selection Sort</em> akan membuka pasangan dua kartu yang sedang dibandingkan satu demi satu, dengan tinggi kartu yang bertingkat sesuai nilainya.
+                    </p>
+                    
+                </div>
+            </div>
+
+            <!-- Controls & Algorithm Choice Grid -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <!-- Algorithm Picker -->
+                    <div class="flex items-center space-x-3">
+                        <label class="font-semibold text-slate-700 text-sm">Pilih Algoritma:</label>
+                        <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+                            <button id="algo-bubble" onclick="setAlgorithm('bubble')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm">
+                                Bubble Sort
+                            </button>
+                            <button id="algo-selection" onclick="setAlgorithm('selection')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900">
+                                Selection Sort
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preset Selector -->
+                    <div class="flex items-center space-x-3">
+                        <label for="sample-preset" class="font-semibold text-slate-700 text-sm">Sampel Kartu:</label>
+                        <select id="sample-preset" onchange="loadPreset()" class="bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded-xl px-3 py-2 font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option value="preset1">Sampel A: [ 7, 4, 1, 6, 3 ]</option>
+                            <option value="preset2">Sampel B: [ 6, 2, 9, 1, 5 ]</option>
+                            <option value="preset3">Sampel C: [ 8, 3, 5, 2, 4 ]</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button id="btn-prev" onclick="stepBackward()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold text-sm transition flex items-center space-x-2 border border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-backward-step"></i>
+                            <span>Mundur</span>
+                        </button>
+                        <button id="btn-next" onclick="stepForward()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm shadow-md shadow-indigo-500/20 transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span>Langkah Berikutnya</span>
+                            <i class="fa-solid fa-forward-step"></i>
+                        </button>
+                        <button id="btn-play" onclick="toggleAutoPlay()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition flex items-center space-x-2">
+                            <i id="play-icon" class="fa-solid fa-play"></i>
+                            <span id="play-text">Auto Play</span>
+                        </button>
+                        <button onclick="resetSimulation()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl font-medium text-sm transition" title="Reset Simulasi">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+
+                    <!-- Speed Control -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-semibold text-slate-500">Kecepatan:</span>
+                        <input type="range" id="sim-speed" min="400" max="2200" value="1200" step="100" class="w-24 accent-indigo-600 cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATOR VISUALIZATION AREA -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                <!-- Status Badge Header -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <h3 id="sim-title" class="font-bold text-lg text-slate-100">Bubble Sort - Putaran 1</h3>
+                    </div>
+                    <div class="bg-slate-800/80 px-4 py-1.5 rounded-full border border-slate-700 text-xs font-mono text-slate-300">
+                        Langkah: <span id="step-counter" class="text-indigo-400 font-bold">0</span> / <span id="total-steps">0</span>
+                    </div>
+                </div>
+
+                <!-- Explanation / Commentary Box -->
+                <div class="my-5 min-h-[64px] bg-slate-800/60 rounded-2xl p-4 border border-slate-700/60 flex items-center space-x-3">
+                    <i class="fa-solid fa-circle-info text-indigo-400 text-xl flex-shrink-0"></i>
+                    <p id="sim-explanation" class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed">
+                        Klik tombol "Langkah Berikutnya" untuk memulai simulasi pengurutan kartu.
+                    </p>
+                </div>
+
+                <!-- CARDS CONTAINER (Dynamic Height Bar-Chart Kartu Bertingkat) -->
+                <div id="cards-container" class="py-4 flex justify-center items-end gap-3 sm:gap-5 md:gap-7 min-h-[250px] max-w-3xl mx-auto">
+                    <!-- Generated via JS -->
+                </div>
+
+                <!-- Selection Sort Minimum Target Indicator Bar -->
+                <div id="min-indicator-bar" class="mt-4 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm font-semibold text-amber-400 opacity-0 transition-opacity duration-300">
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fa-solid fa-bullseye text-indigo-400"></i>
+                        <span>Target Posisi: <span id="target-pos-display" class="font-bold text-white bg-indigo-500/30 px-2 py-0.5 rounded border border-indigo-500/40">-</span></span>
+                    </div>
+                    <span class="text-slate-600">|</span>
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fa-solid fa-thumbtack text-amber-400"></i>
+                        <span>Terkecil Sementara (Min): <span id="min-val-display" class="font-bold text-white bg-amber-500/30 px-2.5 py-0.5 rounded border border-amber-500/40">-</span> di Posisi <span id="min-pos-display" class="font-bold text-white">-</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METRICS DASHBOARD -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tally Box 1: Perbandingan -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-800">Contoh Penghitungan Tally Perbandingan</h4>
+                        </div>
+                        <span id="compare-num" class="text-2xl font-bold font-mono text-blue-600">0</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-3">Tally visual otomatis (setiap 5 perbandingan dibundel 卌):</p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 min-h-[64px] flex items-center">
+                        <div id="compare-tally" class="font-mono text-xl tracking-widest font-bold text-blue-700 break-all leading-relaxed">
+                            -
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tally Box 2: Penukaran -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                <i class="fa-solid fa-right-left"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-800">Contoh Penghitungan Tally Penukaran (Swap)</h4>
+                        </div>
+                        <span id="swap-num" class="text-2xl font-bold font-mono text-emerald-600">0</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-3">Tally visual penukaran posisi kartu:</p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 min-h-[64px] flex items-center">
+                        <div id="swap-tally" class="font-mono text-xl tracking-widest font-bold text-emerald-700 break-all leading-relaxed">
+                            -
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation Bar to Step 3 -->
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="switchStep(1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition">
+                    <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Pre-Test
+                </button>
+                <button onclick="switchStep(3)" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center gap-2">
+                    <span>Lanjut ke Tahap 3: Post-Test</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ================================================================================= -->
+        <!-- STEP 3: POST-TEST SECTION (ZEPquiz LINK) -->
+        <!-- ================================================================================= -->
+        <section id="section-step-3" class="hidden space-y-6 max-w-3xl mx-auto">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 sm:p-10 text-center space-y-6">
+                
+                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+                    <i class="fa-solid fa-gamepad text-4xl"></i>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">Tahap Akhir Evaluasi</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Post-Test Algoritma Sorting</h2>
+                    <p class="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
+                        Saatnya menguji pemahaman akhirmu setelah mempelajari dan mencobanya pada simulasi interaktif!
+                    </p>
+                </div>
+
+                <!-- ZEPquiz Outer Card Box -->
+                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 space-y-5 shadow-lg relative overflow-hidden">
+                    <div class="relative z-10 space-y-3">
+                        <div class="inline-flex items-center space-x-2 bg-indigo-500/30 px-3 py-1 rounded-full text-indigo-200 text-xs border border-indigo-400/30">
+                            <i class="fa-solid fa-bolt text-amber-400"></i>
+                            <span>Kuis Interaktif ZEPquiz</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold">Siap Menantang Pemahamanmu?</h3>
+                        <p class="text-xs sm:text-sm text-slate-300">
+                            Klik tombol di bawah ini untuk menuju ruang kuis <strong>ZEPquiz</strong>. Selesaikan seluruh soal dengan cermat!
+                        </p>
+                    </div>
+
+                    <!-- Main Post-Test Link Button -->
+                    <div class="pt-2 relative z-10">
+                        <a id="zepquiz-link" href="https://quiz.zep.us/en/play/XwVWbx" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-base rounded-xl shadow-lg shadow-emerald-500/30 transform hover:-translate-y-0.5 transition-all duration-200">
+                            <i class="fa-solid fa-rocket text-xl"></i>
+                            <span>Buka Kuis di ZEPquiz</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-sm opacity-80"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-500 text-left space-y-1">
+                    <div class="font-bold text-slate-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-exclamation text-indigo-500"></i> Catatan Pembelajaran:
+                    </div>
+                    <p>
+                        Pastikan Anda menggunakan Nama Lengkap dan Nomor Absen yang sama saat mengerjakan post-test di ZEPquiz agar nilai akhir dapat dicocokkan dengan data presensi awal Anda.
+                    </p>
+                </div>
+
+                <div class="pt-4 flex justify-start">
+                    <button onclick="switchStep(2)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Simulasi
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>© Portal Terpadu Pembelajaran Informatika</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // =========================================================================
+        // 1. STEPPER NAVIGATION SYSTEM
+        // =========================================================================
+        function switchStep(stepNum) {
+            // Hide all steps
+            document.getElementById('section-step-1').classList.add('hidden');
+            document.getElementById('section-step-2').classList.add('hidden');
+            document.getElementById('section-step-3').classList.add('hidden');
+
+            // Reset tab styles
+            [1, 2, 3].forEach(num => {
+                const navBtn = document.getElementById(`nav-step-${num}`);
+                navBtn.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/60";
+                const badge = navBtn.querySelector('span');
+                badge.className = "w-5 h-5 rounded-full bg-slate-300 text-slate-700 flex items-center justify-center text-xs font-bold";
+            });
+
+            // Activate current step
+            document.getElementById(`section-step-${stepNum}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-step-${stepNum}`);
+            activeNav.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl transition-all duration-200 bg-indigo-600 text-white shadow-sm";
+            const activeBadge = activeNav.querySelector('span');
+            activeBadge.className = "w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        // =========================================================================
+        // 2. PRE-TEST LOGIC & QUESTIONS
+        // =========================================================================
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNsC36lU-z4qTIq-IKyxGgQXdEMsKrEcpIgWh8RYNVtcR3Ct9tUOlj3GucLRewc5PYbQ/exec";
+
+        
+        const questionsData = [
+            {
+                id: 1,
+                question: "Pada algoritma Bubble Sort, proses membandingkan dua bilangan yang berdekatan bertujuan untuk ....",
+                options: [
+                    "Mencari bilangan terkecil secara langsung",
+                    "Menukar bilangan jika urutannya tidak sesuai",
+                    "Menghapus bilangan yang nilainya paling besar",
+                    "Memindahkan semua bilangan ke posisi pertama",
+                    "Mengurutkan bilangan secara acak"
+                ],
+                answer: 1 // B
+            },
+            {
+                id: 2,
+                question: "Diketahui bilangan 6, 3, 5, 2. Jika diurutkan menggunakan Bubble Sort dari kecil ke besar, urutan setelah satu putaran pertama adalah ....",
+                options: [
+                    "3, 5, 2, 6",
+                    "3, 6, 5, 2",
+                    "2, 3, 5, 6",
+                    "6, 3, 2, 5",
+                    "3, 2, 5, 6"
+                ],
+                answer: 0 // A
+            },
+            {
+                id: 3,
+                question: "Diketahui bilangan 7, 4, 9, 2, 5. Jika menggunakan Selection Sort dari kecil ke besar, bilangan yang dipindahkan ke posisi pertama pada tahap pertama adalah ....",
+                options: [
+                    "7",
+                    "4",
+                    "9",
+                    "2",
+                    "5"
+                ],
+                answer: 3 // D
+            },
+            {
+                id: 4,
+                question: "Pada algoritma Selection Sort, langkah yang dilakukan untuk menentukan bilangan yang akan ditempatkan pada posisi pertama adalah ....",
+                options: [
+                    "Membandingkan dua bilangan yang berdekatan",
+                    "Mencari bilangan terkecil dari seluruh data",
+                    "Menukar semua bilangan secara berurutan",
+                    "Memilih bilangan yang berada di posisi terakhir",
+                    "Mengurutkan bilangan berdasarkan posisi awal"
+                ],
+                answer: 1 // B
+            },
+            {
+                id: 5,
+                question: "Pernyataan yang tepat mengenai perbedaan Bubble Sort dan Selection Sort adalah ....",
+                options: [
+                    "Bubble Sort mencari bilangan terkecil, sedangkan Selection Sort mencari bilangan terbesar.",
+                    "Bubble Sort membandingkan bilangan berdekatan, sedangkan Selection Sort mencari nilai terkecil dari bagian yang belum terurut.",
+                    "Bubble Sort tidak menggunakan pertukaran, sedangkan Selection Sort menggunakan pertukaran.",
+                    "Bubble Sort hanya dapat mengurutkan tiga bilangan, sedangkan Selection Sort lima bilangan.",
+                    "Bubble Sort dan Selection Sort memiliki langkah kerja yang sama."
+                ],
+                answer: 1 // B
+            },
+            {
+                id: 6,
+                question: "Perhatikan proses berikut:<br>- Proses A: 8, 5, 3, 2 menjadi 5, 3, 2, 8.<br>- Proses B: 8, 5, 3, 2 menjadi 2, 5, 3, 8.<br>Kedua proses tersebut merupakan tahap pertama dari algoritma sorting. Pasangan algoritma yang sesuai adalah ....",
+                options: [
+                    "Proses A = Selection Sort, Proses B = Bubble Sort",
+                    "Proses A = Bubble Sort, Proses B = Selection Sort",
+                    "Proses A = Bubble Sort, Proses B = Insertion Sort",
+                    "Proses A = Selection Sort, Proses B = Insertion Sort",
+                    "Proses A = Insertion Sort, Proses B = Bubble Sort"
+                ],
+                answer: 1 // B
+            }
+        ];
+
+        let currentStudent = { name: "", absen: "", mood: "" };
+        let timerSeconds = 420; 
+        let timerInterval = null;
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = "";
+
+            questionsData.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-4";
+                
+                const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+                let optionsHTML = q.options.map((opt, optIdx) => `
+                    <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-100 hover:bg-indigo-50/50 hover:border-indigo-200 cursor-pointer transition text-sm text-slate-700">
+                        <input type="radio" name="question_${q.id}" value="${optIdx}" onchange="updateProgress()" class="w-4 h-4 mt-0.5 text-indigo-600 focus:ring-indigo-500">
+                        <span><strong>${optionLetters[optIdx]}.</strong> ${opt}</span>
+                    </label>
+                `).join('');
+
+                // Option "Tidak Tahu"
+                optionsHTML += `
+                    <label class="flex items-center gap-3 p-3 rounded-xl border border-amber-200/60 bg-amber-50/30 hover:bg-amber-50 cursor-pointer transition text-sm text-amber-900 font-medium">
+                        <input type="radio" name="question_${q.id}" value="dont_know" onchange="updateProgress()" class="w-4 h-4 text-amber-600 focus:ring-amber-500">
+                        <span class="flex items-center gap-1.5">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-amber-500"></i>
+                            Saya Tidak Tahu / Belum Pernah Mempelajari
+                        </span>
+                    </label>
+                `;
+
+                questionCard.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <span class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-lg text-xs mt-0.5 flex-shrink-0">Soal ${index + 1}</span>
+                        <h3 class="font-semibold text-slate-800 text-base leading-relaxed">${q.question}</h3>
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        ${optionsHTML}
+                    </div>
+                `;
+                container.appendChild(questionCard);
+            });
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function handleStartPretest(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('studentName').value.trim();
+            const absenInput = document.getElementById('studentAbsen').value.trim();
+            const moodSelected = document.querySelector('input[name="studentMood"]:checked');
+
+            if (!nameInput || !absenInput || !moodSelected) return;
+
+            currentStudent = {
+                name: nameInput,
+                absen: String(absenInput).padStart(2, '0'),
+                mood: moodSelected.value
+            };
+
+            document.getElementById('identityView').classList.add('hidden');
+            document.getElementById('quizView').classList.remove('hidden');
+
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('quizTimer');
+
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (timerDisplay) timerDisplay.innerText = formattedTime;
+
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Waktu pengerjaan habis! Jawaban Anda akan otomatis dirangkum.");
+                    handleQuizSubmit();
+                }
+            }, 1000);
+        }
+
+        function updateProgress() {
+            let answered = 0;
+            questionsData.forEach(q => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                if (selected) answered++;
+            });
+
+            document.getElementById('answeredCount').innerText = answered;
+            const percentage = (answered / questionsData.length) * 100;
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+        }
+
+        function handleQuizSubmit(event) {
+            if (event) event.preventDefault();
+            clearInterval(timerInterval);
+
+            let correct = 0;
+            let wrong = 0;
+            let dontKnow = 0;
+
+            questionsData.forEach(q => {
+                const selected = document.querySelector(`input[name="question_${q.id}"]:checked`);
+                if (!selected || selected.value === "dont_know") {
+                    dontKnow++;
+                } else if (parseInt(selected.value) === q.answer) {
+                    correct++;
+                } else {
+                    wrong++;
+                }
+            });
+
+            const totalScore = Math.round((correct / questionsData.length) * 100);
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} WIB`;
+
+            const studentRecord = {
+                absen: currentStudent.absen,
+                nama: currentStudent.name,
+                name: currentStudent.name,
+                kabar: currentStudent.mood,
+                time: timeStr,
+                nilai: totalScore,
+                benar: correct,
+                salah: wrong,
+                tidakTahu: dontKnow
+            };
+
+            localStorage.setItem("pretestCompletedStudent", JSON.stringify(studentRecord));
+            sendToGoogleSheets(studentRecord);
+            showFinalResultView(studentRecord);
+        }
+
+        function showFinalResultView(record) {
+            document.getElementById('identityView').classList.add('hidden');
+            document.getElementById('quizView').classList.add('hidden');
+            document.getElementById('finalResultView').classList.remove('hidden');
+
+            document.getElementById('displayStudentName').innerText = record.nama;
+            document.getElementById('displayStudentAbsen').innerText = record.absen;
+            document.getElementById('displayStudentMood').innerText = record.kabar;
+            document.getElementById('finalScoreText').innerText = record.nilai;
+            document.getElementById('finalCorrectCount').innerText = record.benar;
+            document.getElementById('finalWrongCount').innerText = record.salah;
+            document.getElementById('finalDontKnowCount').innerText = record.tidakTahu;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendToGoogleSheets(data) {
+            if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "") return;
+            fetch(APPS_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).catch(err => console.error("Error payload Google Sheets:", err));
+        }
+
+
+        // =========================================================================
+        // 3. SIMULATION ENGINE LOGIC
+        // =========================================================================
+        const PRESETS = {
+            preset1: [7, 4, 1, 6, 3],
+            preset2: [6, 2, 9, 1, 5],
+            preset3: [8, 3, 5, 2, 4]
+        };
+
+        let currentPresetKey = 'preset1';
+        let currentAlgorithm = 'bubble';
+        let steps = [];
+        let currentStepIdx = 0;
+        let isPlaying = false;
+        let playInterval = null;
+
+        function formatTally(num) {
+            if (!num || num === 0) return '-';
+            const fullGroups = Math.floor(num / 5);
+            const remainder = num % 5;
+            let result = '';
+            for (let i = 0; i < fullGroups; i++) {
+                result += '卌 ';
+            }
+            if (remainder > 0) {
+                result += '|'.repeat(remainder);
+            }
+            return result.trim();
+        }
+
+        function setAlgorithm(algo) {
+            currentAlgorithm = algo;
+            const btnBubble = document.getElementById('algo-bubble');
+            const btnSelection = document.getElementById('algo-selection');
+
+            if (algo === 'bubble') {
+                btnBubble.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm";
+                btnSelection.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
+            } else {
+                btnSelection.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm";
+                btnBubble.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
+            }
+
+            resetSimulation();
+        }
+
+        function loadPreset() {
+            currentPresetKey = document.getElementById('sample-preset').value;
+            resetSimulation();
+        }
+
+        function generateBubbleSortSteps(initialArr) {
+            const stepList = [];
+            let arr = [...initialArr];
+            let compareCount = 0;
+            let swapCount = 0;
+            let sortedIndices = [];
+
+            stepList.push({
+                cards: [...arr],
+                openIndices: [],
+                compared: [],
+                swapped: false,
+                sortedIndices: [...sortedIndices],
+                compareCount: 0,
+                swapCount: 0,
+                pass: 1,
+                explanation: `Susunan awal 5 kartu bertingkat: [ ${arr.join(', ')} ]. Komputer siap menjalankan Bubble Sort.`
+            });
+
+            let n = arr.length;
+            let swappedInPass;
+            let passNum = 1;
+
+            do {
+                swappedInPass = false;
+                for (let i = 0; i < n - 1; i++) {
+                    compareCount++;
+
+                    stepList.push({
+                        cards: [...arr],
+                        openIndices: [i, i + 1],
+                        compared: [i, i + 1],
+                        swapped: false,
+                        sortedIndices: [...sortedIndices],
+                        compareCount: compareCount,
+                        swapCount: swapCount,
+                        pass: passNum,
+                        explanation: `Membandingkan kartu bersebelahan di Posisi ${i + 1} (Nilai: ${arr[i]}) dan Posisi ${i + 2} (Nilai: ${arr[i + 1]}).`
+                    });
+
+                    if (arr[i] > arr[i + 1]) {
+                        let temp = arr[i];
+                        arr[i] = arr[i + 1];
+                        arr[i + 1] = temp;
+                        swapCount++;
+                        swappedInPass = true;
+
+                        stepList.push({
+                            cards: [...arr],
+                            openIndices: [i, i + 1],
+                            compared: [i, i + 1],
+                            swapped: true,
+                            sortedIndices: [...sortedIndices],
+                            compareCount: compareCount,
+                            swapCount: swapCount,
+                            pass: passNum,
+                            explanation: `Karena ${temp} > ${arr[i]}, kartu ditukar! Kartu bertinggi ${temp} bergeser ke kanan.`
+                        });
+                    } else {
+                        stepList.push({
+                            cards: [...arr],
+                            openIndices: [i, i + 1],
+                            compared: [i, i + 1],
+                            swapped: false,
+                            sortedIndices: [...sortedIndices],
+                            compareCount: compareCount,
+                            swapCount: swapCount,
+                            pass: passNum,
+                            explanation: `Karena ${arr[i]} ≤ ${arr[i + 1]}, posisi kedua kartu sudah tepat dan tidak ditukar.`
+                        });
+                    }
+                }
+
+                sortedIndices.push(n - 1);
+                stepList.push({
+                    cards: [...arr],
+                    openIndices: [n - 1],
+                    compared: [],
+                    swapped: false,
+                    sortedIndices: [...sortedIndices],
+                    compareCount: compareCount,
+                    swapCount: swapCount,
+                    pass: passNum,
+                    explanation: `Akhir Putaran ${passNum}: Kartu tertinggi/terbesar (${arr[n - 1]}) telah mantap di posisi paling kanan (Posisi ${n}).`
+                });
+
+                n--;
+                passNum++;
+            } while (swappedInPass && n > 1);
+
+            sortedIndices = [0, 1, 2, 3, 4];
+            stepList.push({
+                cards: [...arr],
+                openIndices: [0, 1, 2, 3, 4],
+                compared: [],
+                swapped: false,
+                sortedIndices: [...sortedIndices],
+                compareCount: compareCount,
+                swapCount: swapCount,
+                pass: passNum - 1,
+                explanation: `Pengurutan Bubble Sort selesai! Semua 5 kartu telah terurut rapi dari terkecil hingga tertinggi.`
+            });
+
+            return stepList;
+        }
+
+        function generateSelectionSortSteps(initialArr) {
+            const stepList = [];
+            let arr = [...initialArr];
+            let compareCount = 0;
+            let swapCount = 0;
+            let sortedIndices = [];
+
+            stepList.push({
+                cards: [...arr],
+                openIndices: [],
+                compared: [],
+                swapped: false,
+                sortedIndices: [...sortedIndices],
+                minIdx: undefined,
+                targetIdx: undefined,
+                compareCount: 0,
+                swapCount: 0,
+                stepNum: 1,
+                explanation: `Susunan awal 5 kartu bertingkat: [ ${arr.join(', ')} ]. Komputer siap menjalankan Selection Sort.`
+            });
+
+            let len = arr.length;
+            for (let i = 0; i < len - 1; i++) {
+                let minIdx = i;
+
+                stepList.push({
+                    cards: [...arr],
+                    openIndices: [i],
+                    compared: [i],
+                    swapped: false,
+                    sortedIndices: [...sortedIndices],
+                    minIdx: minIdx,
+                    targetIdx: i,
+                    compareCount: compareCount,
+                    swapCount: swapCount,
+                    stepNum: i + 1,
+                    explanation: `Langkah ${i + 1}: Menentukan Posisi ${i + 1} sebagai target pengisian kartu terkecil. Nilai sementara Min = ${arr[i]}.`
+                });
+
+                for (let j = i + 1; j < len; j++) {
+                    compareCount++;
+                    const candidateMinVal = arr[minIdx];
+                    const currentVal = arr[j];
+                    const prevMinIdx = minIdx;
+                    let isNewMin = false;
+
+                    if (arr[j] < arr[minIdx]) {
+                        minIdx = j;
+                        isNewMin = true;
+                    }
+
+                    stepList.push({
+                        cards: [...arr],
+                        openIndices: [prevMinIdx, j],
+                        compared: [prevMinIdx, j],
+                        swapped: false,
+                        sortedIndices: [...sortedIndices],
+                        minIdx: minIdx,
+                        targetIdx: i,
+                        compareCount: compareCount,
+                        swapCount: swapCount,
+                        stepNum: i + 1,
+                        explanation: isNewMin ?
+                            `Membandingkan Terkecil Sementara di Posisi ${prevMinIdx + 1} (${candidateMinVal}) dengan Posisi ${j + 1} (${currentVal}). Ditemukan kartu lebih kecil (${currentVal})! Min diperbarui ke Posisi ${j + 1}.` :
+                            `Membandingkan Terkecil Sementara di Posisi ${prevMinIdx + 1} (${candidateMinVal}) dengan Posisi ${j + 1} (${currentVal}). Kartu (${currentVal}) TIDAK lebih kecil dari Min (${candidateMinVal}).`
+                    });
+                }
+
+                if (minIdx !== i) {
+                    let temp = arr[i];
+                    arr[i] = arr[minIdx];
+                    arr[minIdx] = temp;
+                    swapCount++;
+
+                    stepList.push({
+                        cards: [...arr],
+                        openIndices: [i, minIdx],
+                        compared: [i, minIdx],
+                        swapped: true,
+                        sortedIndices: [...sortedIndices],
+                        minIdx: minIdx,
+                        targetIdx: i,
+                        compareCount: compareCount,
+                        swapCount: swapCount,
+                        stepNum: i + 1,
+                        explanation: `Pemeriksaan selesai. Menukar kartu terkecil (${arr[i]}) di Posisi ${minIdx + 1} ke Posisi Target ${i + 1} (menukar dengan kartu ${temp}).`
+                    });
+                } else {
+                    stepList.push({
+                        cards: [...arr],
+                        openIndices: [i],
+                        compared: [i],
+                        swapped: false,
+                        sortedIndices: [...sortedIndices],
+                        minIdx: minIdx,
+                        targetIdx: i,
+                        compareCount: compareCount,
+                        swapCount: swapCount,
+                        stepNum: i + 1,
+                        explanation: `Pemeriksaan selesai. Kartu di Posisi ${i + 1} (${arr[i]}) sudah merupakan kartu paling kecil. Tidak perlu ditukar.`
+                    });
+                }
+
+                sortedIndices.push(i);
+            }
+
+            sortedIndices = [0, 1, 2, 3, 4];
+            stepList.push({
+                cards: [...arr],
+                openIndices: [0, 1, 2, 3, 4],
+                compared: [],
+                swapped: false,
+                sortedIndices: [...sortedIndices],
+                minIdx: undefined,
+                targetIdx: undefined,
+                compareCount: compareCount,
+                swapCount: swapCount,
+                stepNum: 4,
+                explanation: `Pengurutan Selection Sort selesai! Semua kartu terurut dari kecil ke besar.`
+            });
+
+            return stepList;
+        }
+
+        function renderStep() {
+            const step = steps[currentStepIdx];
+            if (!step) return;
+
+            if (currentAlgorithm === 'bubble') {
+                document.getElementById('sim-title').innerText = `Bubble Sort - Putaran ${step.pass || 1}`;
+            } else {
+                document.getElementById('sim-title').innerText = `Selection Sort - Langkah ${step.stepNum || 1}`;
+            }
+
+            document.getElementById('step-counter').innerText = currentStepIdx;
+            document.getElementById('total-steps').innerText = steps.length - 1;
+            document.getElementById('sim-explanation').innerText = step.explanation;
+
+            document.getElementById('compare-num').innerText = step.compareCount;
+            document.getElementById('compare-tally').innerText = formatTally(step.compareCount);
+            document.getElementById('swap-num').innerText = step.swapCount;
+            document.getElementById('swap-tally').innerText = formatTally(step.swapCount);
+
+            const minBar = document.getElementById('min-indicator-bar');
+            if (currentAlgorithm === 'selection' && step.targetIdx !== undefined) {
+                minBar.classList.remove('opacity-0');
+                document.getElementById('target-pos-display').innerText = `Posisi ${step.targetIdx + 1}`;
+                document.getElementById('min-val-display').innerText = step.cards[step.minIdx];
+                document.getElementById('min-pos-display').innerText = step.minIdx + 1;
+            } else {
+                minBar.classList.add('opacity-0');
+            }
+
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            const maxVal = Math.max(...step.cards, 9);
+            const minHeightPx = 110;
+            const maxHeightPx = 220;
+
+            step.cards.forEach((val, idx) => {
+                const isOpen = step.openIndices.includes(idx) || step.sortedIndices.includes(idx);
+                const isCompared = step.compared.includes(idx);
+                const isSwapped = step.swapped && isCompared;
+                const isMinCandidate = (currentAlgorithm === 'selection' && step.minIdx === idx);
+                const isTarget = (currentAlgorithm === 'selection' && step.targetIdx === idx);
+
+                const cardHeight = minHeightPx + ((val / maxVal) * (maxHeightPx - minHeightPx));
+
+                const cardWrap = document.createElement('div');
+                cardWrap.className = 'flex flex-col items-center flex-1 max-w-[110px] min-w-[56px] card-perspective';
+
+                const posLabel = document.createElement('div');
+                posLabel.className = 'text-[11px] font-semibold text-slate-400 mb-2 flex items-center space-x-1';
+                posLabel.innerHTML = `<span>Pos ${idx + 1}</span>`;
+
+                if (isTarget) {
+                    posLabel.innerHTML += ` <i class="fa-solid fa-bullseye text-indigo-400" title="Target Posisi"></i>`;
+                }
+
+                const cardInner = document.createElement('div');
+                let borderStyle = "border-slate-700 bg-slate-800";
+                
+                if (step.sortedIndices.includes(idx)) {
+                    borderStyle = "border-emerald-500/80 bg-emerald-950/40 shadow-lg shadow-emerald-900/20";
+                } else if (isSwapped) {
+                    borderStyle = "border-rose-500 bg-rose-950/60 ring-4 ring-rose-500/40 animate-swap-card shadow-lg shadow-rose-900/40";
+                } else if (isCompared) {
+                    borderStyle = "border-amber-400 bg-amber-950/60 ring-4 ring-amber-400/40 shadow-lg shadow-amber-900/30";
+                }
+
+                cardInner.className = `card-inner w-full rounded-2xl border-2 flex flex-col justify-between p-3 relative cursor-default shadow-md ${borderStyle} ${isOpen ? 'flipped' : ''}`;
+                cardInner.style.height = `${cardHeight}px`;
+
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front absolute inset-0 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex flex-col items-center justify-center p-2 text-slate-400 border border-slate-600/50';
+                cardFront.innerHTML = `
+                    <i class="fa-solid fa-lock text-slate-500 text-lg sm:text-xl mb-1"></i>
+                    <span class="text-[10px] font-mono tracking-wider text-slate-400 uppercase">Tertutup</span>
+                `;
+
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back absolute inset-0 rounded-2xl flex flex-col justify-between p-2.5 sm:p-3 text-center';
+
+                let topTag = '';
+                if (isMinCandidate && currentAlgorithm === 'selection') {
+                    topTag = `<span class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase shadow">MIN</span>`;
+                } else if (step.sortedIndices.includes(idx)) {
+                    topTag = `<i class="fa-solid fa-check text-emerald-400 text-xs"></i>`;
+                } else {
+                    topTag = `<span class="text-[10px] text-slate-400 font-mono">#${idx+1}</span>`;
+                }
+
+                cardBack.innerHTML = `
+                    <div class="flex justify-between items-center w-full">
+                        ${topTag}
+                        <span class="text-[10px] font-bold text-slate-400">${val}</span>
+                    </div>
+                    <div class="my-auto">
+                        <span class="text-2xl sm:text-3xl font-extrabold font-mono text-white drop-shadow-md">${val}</span>
+                    </div>
+                    <div class="w-full bg-slate-700/60 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-indigo-400 h-full rounded-full" style="width: ${(val / maxVal) * 100}%"></div>
+                    </div>
+                `;
+
+                cardInner.appendChild(cardFront);
+                cardInner.appendChild(cardBack);
+                cardWrap.appendChild(posLabel);
+                cardWrap.appendChild(cardInner);
+                container.appendChild(cardWrap);
+            });
+
+            document.getElementById('btn-prev').disabled = (currentStepIdx === 0);
+            document.getElementById('btn-next').disabled = (currentStepIdx === steps.length - 1);
+        }
+
+        function stepForward() {
+            if (currentStepIdx < steps.length - 1) {
+                currentStepIdx++;
+                renderStep();
+            } else {
+                stopAutoPlay();
+            }
+        }
+
+        function stepBackward() {
+            if (currentStepIdx > 0) {
+                currentStepIdx--;
+                renderStep();
+            }
+        }
+
+        function resetSimulation() {
+            stopAutoPlay();
+            const initialArr = PRESETS[currentPresetKey];
+            if (currentAlgorithm === 'bubble') {
+                steps = generateBubbleSortSteps(initialArr);
+            } else {
+                steps = generateSelectionSortSteps(initialArr);
+            }
+            currentStepIdx = 0;
+            renderStep();
+        }
+
+        function toggleAutoPlay() {
+            if (isPlaying) {
+                stopAutoPlay();
+            } else {
+                startAutoPlay();
+            }
+        }
+
+        function startAutoPlay() {
+            if (currentStepIdx >= steps.length - 1) {
+                currentStepIdx = 0;
+            }
+            isPlaying = true;
+            document.getElementById('play-icon').className = 'fa-solid fa-pause';
+            document.getElementById('play-text').innerText = 'Pause';
+            
+            const speed = parseInt(document.getElementById('sim-speed').value);
+            playInterval = setInterval(() => {
+                if (currentStepIdx < steps.length - 1) {
+                    stepForward();
+                } else {
+                    stopAutoPlay();
+                }
+            }, speed);
+        }
+
+        function stopAutoPlay() {
+            isPlaying = false;
+            if (playInterval) clearInterval(playInterval);
+            document.getElementById('play-icon').className = 'fa-solid fa-play';
+            document.getElementById('play-text').innerText = 'Auto Play';
+        }
+
+        document.getElementById('sim-speed').addEventListener('change', () => {
+            if (isPlaying) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        });
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            if (window.lucide) lucide.createIcons();
+            renderQuestions();
+            resetSimulation();
+        };
+    </script>
+</body>
+</html>
