@@ -699,63 +699,63 @@
             },
             {
                 id: 2,
-                question: "Pasangan komponen CPU dan tugasnya yang benar adalah …",
+                question: "Dalam aplikasi ojek online, pengguna mengetik titik jemput dan tujuan. Aplikasi menghitung jarak, menentukan tarif, dan mencari pengemudi terdekat. Setelah itu layar menampilkan tarif dan nama pengemudi. Pemetaan Input–Proses–Output yang paling tepat adalah …",
                 options: [
-                    "CU: mengambil dan menafsirkan instruksi serta mengatur kerja komponen lain; ALU: melakukan perhitungan dan perbandingan",
-                    "CU: melakukan perhitungan dan perbandingan; ALU: mengatur urutan instruksi",
-                    "CU: menyimpan instruksi dan data; ALU: menampilkan hasil",
-                    "CU: menerima data dari pengguna; ALU: menyimpan instruksi",
-                    "CU: menampilkan hasil; ALU: mengambil instruksi dari memori"
+                    "Input: tarif dan nama pengemudi; Proses: menghitung jarak dan tarif; Output: titik jemput dan tujuan",
+                    "Input: titik jemput, tujuan, dan tarif; Proses: menghitung jarak dan mencari pengemudi; Output: nama pengemudi",
+                    "Input: titik jemput dan tujuan; Proses: menghitung jarak, menentukan tarif, dan mencari pengemudi terdekat; Output: tarif dan nama pengemudi",
+                    "Input: titik jemput dan tujuan; Proses: menampilkan tarif dan nama pengemudi; Output: menghitung jarak dan tarif",
+                    "Input: aplikasi ojek online; Proses: titik jemput dan tujuan; Output: tarif"
                 ],
-                answer: 0 // A
+                answer: 2 
             },
             {
                 id: 3,
-                question: "Pernyataan yang benar tentang memori pada model Von Neumann adalah …",
+                question: "Sebuah program akan menampilkan nilai tertinggi dari tiga nilai ulangan yang dimasukkan guru. Rancangan alur yang paling tepat menurut model Input–Proses–Output adalah …",
                 options: [
-                    "Memori hanya menyimpan data, sedangkan instruksi disimpan di CU",
-                    "Memori bertugas menghitung dan membandingkan data",
-                    "Memori menyimpan instruksi dan data di tempat yang sama",
-                    "Memori mengatur urutan instruksi yang dijalankan",
-                    "Memori hanya menyimpan hasil akhir yang akan ditampilkan"
+                    "Input: guru; Proses: nilai ulangan; Output: layar",
+                    "Input: nilai tertinggi; Proses: membandingkan tiga nilai; Output: tiga nilai ulangan",
+                    "Input: tiga nilai ulangan dan nilai tertinggi; Proses: menjumlahkan nilai; Output: rata-rata",
+                    "Input: tiga nilai ulangan; Proses: menampilkan nilai tertinggi; Output: membandingkan nilai",
+                    "Input: tiga nilai ulangan; Proses: membandingkan nilai dan memilih yang terbesar; Output: nilai tertinggi"
                 ],
-                answer: 2 // C
+                answer: 4
             },
             {
                 id: 4,
-                question: "Perbedaan instruksi dan data pada memori yang tepat adalah …",
+                question: "CU sudah mengambil instruksi “tambahkan isi alamat 21 ke ALU”, tetapi tidak menemukan arti instruksi itu di kamus instruksinya, sehingga tidak ada perintah yang dikirim ke ALU. Tahap yang bermasalah adalah …",
                 options: [
-                    "Instruksi adalah angka yang diolah, sedangkan data adalah perintah untuk CU",
-                    "Instruksi disimpan di CPU, sedangkan data disimpan di memori",
-                    "Instruksi hanya boleh berisi angka, sedangkan data hanya boleh berisi huruf",
-                    "Instruksi memberi tahu apa yang harus dikerjakan, sedangkan data adalah nilai yang diolah",
-                    "Instruksi dan data tidak bisa disimpan bersama di memori"
+                    "Fetch (mengambil), karena instruksi gagal diambil dari memori",
+                    "Execute (menjalankan), karena ALU tidak menghitung data yang sudah diambil",
+                    "Fetch dan execute, karena keduanya selalu gagal bersamaan",
+                    "Decode (memahami), karena CU tidak dapat menafsirkan instruksi yang sudah diambil",
+                    "Tidak ada, karena CU hanya bertugas mengambil instruksi"
                 ],
                 answer: 3 // D
             },
             {
                 id: 5,
-                question: "Urutan tahap yang dilakukan CU untuk menjalankan satu instruksi yang benar adalah …",
+                question: "5.	Memori sudah berisi angka 9 dan 6, tetapi belum ada satu pun instruksi. Apa yang terjadi saat CU mulai bekerja, dan mengapa?",
                 options: [
-                    "Execute (menjalankan) → Fetch (mengambil) → Decode (memahami)",
-                    "Decode (memahami) → Fetch (mengambil) → Execute (menjalankan)",
-                    "Fetch (mengambil) → Execute (menjalankan) → Decode (memahami)",
-                    "Decode (memahami) → Execute (menjalankan) → Fetch (mengambil)",
-                    "Fetch (mengambil) → Decode (memahami) → Execute (menjalankan)"
+                    "Tahap fetch tidak berjalan karena tidak ada instruksi untuk diambil, sehingga decode dan execute ikut tidak terjadi",
+                    "Tahap execute berjalan lebih dulu karena ALU dapat langsung menghitung angka 9 dan 6",
+                    "Tahap decode berjalan, tetapi fetch tidak diperlukan karena datanya sudah ada",
+                    "CU membuat instruksi sendiri dari angka yang ada di memori",
+                    "Layar menampilkan 15 karena ALU menjumlahkan semua data"
                 ],
-                answer: 4 // E
+                answer: 0
             },
             {
                 id: 6,
                 question: "Seorang siswa memasukkan angka 9 dan 6 dengan benar ke sebuah program penjumlahan, tetapi layar menampilkan 9. Layar dan ALU berfungsi normal. Dugaan penyebab yang paling tepat adalah …",
                 options: [
-                    "Unit input salah mengirim tanda tambah ke layar",
-                    "Instruksi penjumlahan menunjuk alamat memori yang salah sehingga angka 6 tidak terambil",
-                    "CU menghitung hasil sendiri tanpa melalui ALU",
-                    "Memori mengubah angka 9 menjadi angka 6",
-                    "Tahap fetch berlangsung setelah tahap execute"
+                    "Unit input mengirim tanda tambah langsung ke layar sehingga angka 6 tidak diproses",
+                    "Tahap fetch berlangsung setelah tahap execute sehingga instruksi penjumlahan tidak sempat dijalankan",
+                    "CU menghitung hasil penjumlahan sendiri tanpa melalui ALU sehingga angka 6 diabaikan",
+                    "Memori mengubah angka 9 menjadi angka 6 sehingga hasil penjumlahan menjadi keliru",
+                    "instruksi penjumlahan menunjuk alamat memori yang salah sehingga angka 6 tidak terambil "
                 ],
-                answer: 1 // B
+                answer: 4
             }
         ];
 
